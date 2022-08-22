@@ -2,6 +2,8 @@ import "reflect-metadata";
 
 import express, { Application } from "express";
 
+import connectDB from "./database/db.config";
+
 import cors from "cors";
 
 class App {
@@ -17,6 +19,8 @@ class App {
         origin: "*",
       })
     );
+
+    connectDB;
   }
 }
 
