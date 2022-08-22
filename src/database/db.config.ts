@@ -3,11 +3,11 @@ import { DataSource } from "typeorm";
 class ConnectDB {
   private static connection;
   constructor() {
-      console.log('connecting to db');
+    console.log("connecting .....");
   }
 
   public getInstance() {
-    if (!ConnectDB.connection) {
+    if (ConnectDB.connection == null) {
       ConnectDB.connection = new DataSource({
         type: "mongodb",
         host: "localhost",
@@ -17,8 +17,17 @@ class ConnectDB {
         database: "vacancy",
         synchronize: true,
         logging: true,
-        entities: ["../*/entities/**.ts"],
+        entities: ["../*/entity/**.ts"],
       });
+
+      ConnectDB.connection
+        .initialize()
+        .then(() => {
+          console.log("connect to db");
+        })
+        .catch((error) => {
+          throw error;
+        });
     }
     return ConnectDB.connection;
   }
