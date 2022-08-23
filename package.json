@@ -14,6 +14,7 @@
   "private": false,
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "class-validator": "^0.13.2",
     "config": "^3.3.7",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",

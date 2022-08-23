@@ -16,8 +16,7 @@ export class UserService {
   async createUser(userCreate: CreateUserDTO) {
     try {
       const user = await this.findUser({ email: userCreate.email });
-
-      if (user) {
+      if (user !== null) {
         throw new Error("this user is exist with this email");
       }
 

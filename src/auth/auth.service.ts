@@ -6,6 +6,7 @@ import JwtService from "../shared/service/jwt.service";
 export class AuthService {
   private userService: UserService;
   private jwtService: JwtService;
+  
   constructor() {
     this.userService = new UserService();
     this.jwtService = new JwtService();

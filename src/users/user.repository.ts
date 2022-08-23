@@ -10,10 +10,11 @@ export class UserRepository {
     }
 
     async create(paramData: CreateUserDTO): Promise<User> {
-        return await this.connection.manager.save(paramData);
+        const user = await this.connection.getRepository(User).create(paramData);
+        return await this.connection.getRepository(User).save(user);
     }
 
     async getOne(paramData: GetUserDTO): Promise<User> {
-        return await this.connection.manager.findBy(User, paramData);
+        return await this.connection.getRepository(User).findOneBy(paramData);
     }
 }

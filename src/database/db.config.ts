@@ -17,7 +17,7 @@ class ConnectDB {
         database: "vacancy",
         synchronize: true,
         logging: true,
-        entities: ["../*/entity/**.ts"],
+        entities: ["src/*/entity/*{.js,.ts}"]
       });
 
       ConnectDB.connection

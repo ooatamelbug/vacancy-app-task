@@ -1,8 +1,8 @@
-import { AuthController } from "./auth.controller";
+import AuthController from "./auth.controller";
 import { Application, Router } from "express";
 
 class AuthRouter {
-  private userController: AuthController;
+  public readonly userController: AuthController;
   private router: Router;
 
   constructor() {
@@ -10,16 +10,13 @@ class AuthRouter {
     this.router = Router({ mergeParams: true });
   }
 
-  allRouter() {
+  getRouter() {
     this.router.post("/login", [], this.userController.login);
 
-    this.router.get("/register", [], this.userController.register);
-  }
-
-  getRouter() {
-    this.allRouter();
+    this.router.post("/register", [], this.userController.register);
+    
     return this.router;
   }
 }
 
-export default new AuthRouter().getRouter();
+export default AuthRouter;

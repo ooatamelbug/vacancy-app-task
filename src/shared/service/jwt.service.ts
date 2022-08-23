@@ -7,7 +7,7 @@ class JwtService {
       sub: userId,
     };
     const token = await jwt.sign(payload, process.env.JWT_SECRECT, {
-      expiresIn: `${process.env.JWT_EXPIRESIN}`,
+      expiresIn: `${process.env.JWT_EXPIRESIN}d`,
     });
 
     return token;
