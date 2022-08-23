@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty, IsOptional } from "class-validator";
+// import User from "users/entity/user";
 
 export class CreateCompanyDTO {
     @IsNotEmpty()
@@ -10,6 +11,9 @@ export class CreateCompanyDTO {
 
     @IsNotEmpty()
     description: string;
+
+    @IsNotEmpty()
+    user: any;
 }
 
 export class GetCompanyDTO {

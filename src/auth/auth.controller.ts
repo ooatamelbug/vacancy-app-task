@@ -4,9 +4,11 @@ import { Request, Response } from "express";
 import { Error } from "mongoose";
 import { CreateUserDTO } from "./../users/dto/user.dto";
 import ErrorValidateUserDTO from "./auth.validate";
+import { ResponseData } from "./../shared/interface/response";
 
 class AuthController {
   async login(req: Request, res: Response) {
+    let response: ResponseData;
     try {
       const errors = await new ErrorValidateUserDTO().validateLoginUser(
         req.body as LoginUserDTO
@@ -20,19 +22,22 @@ class AuthController {
       const authUser = await new AuthService().login(req.body as LoginUserDTO);
 
       if (!authUser.token) {
-        throw new Error("error in auth");
+        res.status(401).json({ errors: ["error in auth"] });
+        return;
       }
 
       req.headers.user = authUser.userId;
       res.status(200).json({
-        token: authUser.token,
+        "api-Key": authUser.token,
       });
     } catch (error) {
-      throw error;
+      response = { errors: [error.message] };
+      return res.status(500).json(response);
     }
   }
 
   async register(req: Request, res: Response) {
+    let response: ResponseData;
     try {
       const errors = await new ErrorValidateUserDTO().validateCreateUser(
         req.body as CreateUserDTO
@@ -47,15 +52,17 @@ class AuthController {
       );
 
       if (!authUser.token) {
-        throw new Error("error in auth");
+        res.status(401).json({ errors: ["error in auth"] });
+        return;
       }
 
       req.headers.user = authUser.userId;
       res.status(200).json({
-        token: authUser.token,
+        "api-Key": authUser.token,
       });
     } catch (error) {
-      throw error;
+      response = { errors: [error.message] };
+      return res.status(500).json(response);
     }
   }
 }

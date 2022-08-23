@@ -1,6 +1,7 @@
 import ObjectIDExtende from "../../shared/dto/shared.dto";
-import { Column, Entity } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
 import { IsEmail, IsNotEmpty, IsOptional } from "class-validator";
+import Company from "../../company/entity/company";
 
 class JobDay {
    @IsOptional()
@@ -29,6 +30,9 @@ class User extends ObjectIDExtende {
    @IsOptional()
    @Column()
    jobInDay: [JobDay]
+
+   @OneToMany(type => Company, company => company.user)
+   companies: Company[];
 }
 
 export default User;
