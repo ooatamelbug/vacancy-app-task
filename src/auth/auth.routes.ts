@@ -1,7 +1,7 @@
 import AuthController from "./auth.controller";
 import { Application, Router } from "express";
 
-class AuthRouter {
+class CompanyRouter {
   public readonly userController: AuthController;
   private router: Router;
 
@@ -19,4 +19,4 @@ class AuthRouter {
   }
 }
 
-export default AuthRouter;
+export default CompanyRouter;
