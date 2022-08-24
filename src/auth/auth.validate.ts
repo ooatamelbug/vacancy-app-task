@@ -1,14 +1,14 @@
 import { CreateUserDTO } from "./../users/dto/user.dto";
 import { validate } from "class-validator";
-import { LoginUserDTO } from "./dto/auth.dto";
+import { SigninUserDTO } from "./dto/auth.dto";
 
 class ErrorValidateUserDTO {
   public createUserDTO: CreateUserDTO;
-  public loginUserDTO: LoginUserDTO;
+  public signinUserDTO: SigninUserDTO;
 
   constructor() {
     this.createUserDTO = new CreateUserDTO();
-    this.loginUserDTO = new LoginUserDTO();
+    this.signinUserDTO = new SigninUserDTO();
   }
 
   async validateCreateUser(createdata: CreateUserDTO) {
@@ -25,10 +25,10 @@ class ErrorValidateUserDTO {
     }
   }
 
-  async validateLoginUser(logdata: LoginUserDTO) {
-    this.loginUserDTO.email = logdata.email;
-    this.loginUserDTO.password = logdata.password;
-    const errors = await validate(this.loginUserDTO);
+  async validateLoginUser(logdata: SigninUserDTO) {
+    this.signinUserDTO.email = logdata.email;
+    this.signinUserDTO.password = logdata.password;
+    const errors = await validate(this.signinUserDTO);
     if (errors.length) {
       const error = errors.map((err) => {
         return err.constraints;

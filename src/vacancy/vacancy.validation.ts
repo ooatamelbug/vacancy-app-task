@@ -1,10 +1,9 @@
-import { CreateUserDTO } from "./../users/dto/user.dto";
 import { validate } from "class-validator";
-import {GetVacancyDTO, CreateVacancyDTO, ApplyDTO} from "./dto/vacancy.dto";
+import { GetVacancyDTO, CreateVacancyDTO, ApplyDTO } from "./dto/vacancy.dto";
 
 class ErrorValidateVacancyDTO {
   public createVacancyDTO: CreateVacancyDTO;
-  public getVacancyDTO: GetVacancyDTO
+  public getVacancyDTO: GetVacancyDTO;
   public applyDTO: ApplyDTO;
 
   constructor() {
@@ -17,7 +16,8 @@ class ErrorValidateVacancyDTO {
     this.createVacancyDTO.postionTitle = createdata.postionTitle;
     this.createVacancyDTO.description = createdata.description;
     this.createVacancyDTO.company = createdata.company;
-    this.createVacancyDTO.requiredOfYearsExperience = createdata.requiredOfYearsExperience;
+    this.createVacancyDTO.requiredOfYearsExperience =
+      createdata.requiredOfYearsExperience;
     this.createVacancyDTO.status = createdata.status;
     const errors = await validate(this.createVacancyDTO);
     if (errors.length) {
@@ -30,7 +30,8 @@ class ErrorValidateVacancyDTO {
 
   async validateGetVacancy(logdata: GetVacancyDTO) {
     this.getVacancyDTO.status = logdata.status;
-    this.getVacancyDTO.requiredOfYearsExperience = logdata.requiredOfYearsExperience;
+    this.getVacancyDTO.requiredOfYearsExperience =
+      logdata.requiredOfYearsExperience;
     const errors = await validate(this.getVacancyDTO);
     if (errors.length) {
       const error = errors.map((err) => {
@@ -39,7 +40,7 @@ class ErrorValidateVacancyDTO {
       return error;
     }
   }
-  
+
   async validateApplyVacancy(applydata: ApplyDTO) {
     this.applyDTO.email = applydata.email;
     this.applyDTO.vacancyId = applydata.vacancyId;

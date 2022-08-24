@@ -1,7 +1,7 @@
-import { IsEmail, IsNotEmpty, IsOptional } from "class-validator";
+import { IsEmail, IsNotEmpty } from "class-validator";
 import { ObjectID } from "typeorm";
 
-export class LoginUserDTO {
+export class SigninUserDTO {
     @IsNotEmpty()
     @IsEmail()
     email: string;
@@ -10,7 +10,7 @@ export class LoginUserDTO {
     password: string;
 }
 
-export class LoginresponseDTO {
+export class SigninResponseDTO {
     @IsNotEmpty()
     token: string;
 

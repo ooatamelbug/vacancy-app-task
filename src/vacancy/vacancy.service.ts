@@ -88,9 +88,9 @@ export class VacancyService {
         vacancy.jobApplicants = [{ id: user.id, timeApply: new Date() }];
       }
 
-        await this.vacancyRepository.update(vacancy, vacancy.uuid);
+      await this.vacancyRepository.update(vacancy, vacancy.uuid);
 
-        await this.userService.updateUser(user, user.email);
+      await this.userService.updateUser(user, user.email);
 
       return { message: "OK" };
     } catch (error) {

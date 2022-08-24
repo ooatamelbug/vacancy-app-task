@@ -11,8 +11,6 @@ class UserRouter {
   }
 
   allRouter() {
-    this.router.post("/create", [], this.userController.createNewUser);
-
     this.router.get("/", [], this.userController.getindex);
   }
 

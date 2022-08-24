@@ -1,5 +1,5 @@
 import { CreateUserDTO } from "./../users/dto/user.dto";
-import { LoginUserDTO, LoginresponseDTO } from "./dto/auth.dto";
+import { SigninUserDTO, SigninResponseDTO } from "./dto/auth.dto";
 import { UserService } from "./../users/user.service";
 import JwtService from "../shared/service/jwt.service";
 
@@ -12,7 +12,7 @@ export class AuthService {
     this.jwtService = new JwtService();
   }
 
-  async signin(loginData: LoginUserDTO): Promise<LoginresponseDTO> {
+  async signin(loginData: SigninUserDTO): Promise<SigninResponseDTO> {
     try {
       const user = await this.userService.credential(loginData);
 
@@ -29,7 +29,7 @@ export class AuthService {
     }
   }
 
-  async signup(registerData: CreateUserDTO): Promise<LoginresponseDTO> {
+  async signup(registerData: CreateUserDTO): Promise<SigninResponseDTO> {
     try {
       const user = await this.userService.createUser(registerData);
       if (!user) {

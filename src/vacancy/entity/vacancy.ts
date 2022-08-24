@@ -3,22 +3,19 @@ import {
   Column,
   Entity,
   ManyToOne,
-  OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
-  Generated
 } from "typeorm";
 import { ObjectID } from "mongodb";
-import { IsEmail, IsNotEmpty, IsOptional } from "class-validator";
+import { IsNotEmpty } from "class-validator";
 import Company from "../../company/entity/company";
-import {User} from "../../users/entity/user";
 
 export class JobApplicants {
-    @Column({nullable: false})
-    id: ObjectID
+  @Column({ nullable: false })
+  id: ObjectID;
 
-    @Column({ type: 'timestamp' })
-    timeApply: Date;
+  @Column({ type: "timestamp" })
+  timeApply: Date;
 }
 
 @Entity()
@@ -34,7 +31,6 @@ class Vacancy extends ObjectIDExtende {
   @Column()
   requiredOfYearsExperience: number;
 
-  
   @Column()
   uuid: string;
 

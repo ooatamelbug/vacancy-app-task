@@ -62,7 +62,7 @@ export class VacancyController {
       );
 
       if (errors !== undefined) {
-        res.status(400).json({ errors });
+        res.status(400).json({ success: false, errors });
         return;
       }
 
@@ -81,8 +81,7 @@ export class VacancyController {
         data: vacancy,
       });
     } catch (error) {
-      console.log(error);
-      response = { errors: [error.message] };
+      response = { success: false, errors: [error.message] };
       return res.status(500).json(response);
     }
   }
@@ -106,9 +105,10 @@ export class VacancyController {
       const apply = await new VacancyService().applyVacancy(
         req.body as ApplyDTO
       );
-      return res
-        .status(201)
-        .json({ success: true, message: `successful apply (^_^) ${apply.message}` });
+      return res.status(201).json({
+        success: true,
+        message: `successful apply (^_^) ${apply.message}`,
+      });
     } catch (error) {
       response = { success: false, errors: [error.message] };
       return res.status(500).json(response);

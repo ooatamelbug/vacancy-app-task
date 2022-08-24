@@ -25,8 +25,6 @@ class App {
 
     this.routerApp = new AppRouter();
     this.routerApp.routes(this.app);
-
-    // new AppRouter(this.app);
   }
 }
 

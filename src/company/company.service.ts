@@ -20,7 +20,7 @@ export class CompanyService {
     try {
       const user = await this.findCompany({ email: createdata.email });
       if (user !== null) {
-        throw new Error("this user is exist with this email");
+        throw new Error("this company is exist with this email");
       }
 
       return await this.companyRepository.create(createdata);

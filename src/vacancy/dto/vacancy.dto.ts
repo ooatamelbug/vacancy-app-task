@@ -1,5 +1,4 @@
-import { User } from '../../users/entity/user';
-import { IsEmail, IsNotEmpty, IsOptional } from "class-validator";
+import { IsNotEmpty, IsOptional } from "class-validator";
 import { ObjectID } from "typeorm";
 import Company from "../../company/entity/company";
 
@@ -21,7 +20,7 @@ export class CreateVacancyDTO {
 }
 
 export class MergeCreateWithUuidDTO extends CreateVacancyDTO {
-    uuid: string;
+  uuid: string;
 }
 
 export class GetVacancyDTO {
@@ -35,10 +34,10 @@ export class GetVacancyDTO {
   uuid?: string | any;
 
   @IsOptional()
-  created_by?: ObjectID
+  created_by?: ObjectID;
 
   @IsOptional()
-  jobApplicants?: ObjectID
+  jobApplicants?: ObjectID;
 }
 
 export class ApplyDTO {

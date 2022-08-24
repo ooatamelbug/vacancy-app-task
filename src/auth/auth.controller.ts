@@ -1,5 +1,5 @@
 import { CustomRequest } from "./../shared/interface/request";
-import { LoginUserDTO } from "./dto/auth.dto";
+import { SigninUserDTO } from "./dto/auth.dto";
 import { AuthService } from "./auth.service";
 import { Response } from "express";
 import { CreateUserDTO } from "./../users/dto/user.dto";
@@ -11,7 +11,7 @@ class AuthController {
     let response: ResponseData;
     try {
       const errors = await new ErrorValidateUserDTO().validateLoginUser(
-        req.body as LoginUserDTO
+        req.body as SigninUserDTO
       );
 
       if (errors !== undefined) {
@@ -19,7 +19,7 @@ class AuthController {
         return;
       }
 
-      const authUser = await new AuthService().signin(req.body as LoginUserDTO);
+      const authUser = await new AuthService().signin(req.body as SigninUserDTO);
 
       if (!authUser.token) {
         res.status(401).json({ errors: ["error in auth"] });

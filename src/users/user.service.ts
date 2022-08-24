@@ -1,5 +1,9 @@
-import { ObjectId } from 'mongodb';
-import { CreateUserDTO, CredentialDTO, GetUserDTO, UpdateUserDTO } from "./dto/user.dto";
+import {
+  CreateUserDTO,
+  CredentialDTO,
+  GetUserDTO,
+  UpdateUserDTO,
+} from "./dto/user.dto";
 import { UserRepository } from "./user.repository";
 import * as bcryptjs from "bcryptjs";
 
@@ -16,15 +20,15 @@ export class UserService {
 
   async updateUser(updateData: UpdateUserDTO, email: string) {
     try {
-      const user = await this.findUser({email: updateData.email});
-      if(user) {
-        if(String(updateData.id) !== user.id.toString()) {
-          throw new Error('there are anthor user have this email');
+      const user = await this.findUser({ email: updateData.email });
+      if (user) {
+        if (String(updateData.id) !== user.id.toString()) {
+          throw new Error("there are anthor user have this email");
         } else {
           return this.userRepository.update(updateData, email);
         }
       } else {
-        throw new Error('error in data');
+        throw new Error("error in data");
       }
     } catch (error) {
       throw error;
@@ -40,7 +44,7 @@ export class UserService {
 
       const newPassword = await bcryptjs.hash(userCreate.password, 12);
       userCreate.password = newPassword;
-      
+
       return await this.userRepository.create(userCreate);
     } catch (error) {
       throw error;
