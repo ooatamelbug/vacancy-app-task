@@ -1,38 +1,52 @@
 import ObjectIDExtende from "../../shared/dto/shared.dto";
-import { Column, Entity, OneToMany } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { IsEmail, IsNotEmpty, IsOptional } from "class-validator";
 import Company from "../../company/entity/company";
+import Vacancy from "../../vacancy/entity/vacancy";
 
-class JobDay {
-   @IsOptional()
-   date: string;
-   @IsOptional()
-   numb: number; 
+export class JobDay {
+  @IsOptional()
+  date: Date;
+
+  @IsOptional()
+  numb: number;
 }
 
 @Entity()
-class User extends ObjectIDExtende {
-   @IsNotEmpty()
-   @Column()
-   firsname: string;
+export class User extends ObjectIDExtende {
+  @IsNotEmpty()
+  @Column()
+  firsname: string;
 
-   @IsNotEmpty()
-   @Column()
-   lastname: string;
+  @IsNotEmpty()
+  @Column()
+  lastname: string;
 
-   @IsEmail()
-   @Column()
-   email: string;
+  @IsEmail()
+  @Column()
+  email: string;
 
-   @Column({ select: false })
-   password: string;
+  @Column({ select: false })
+  password: string;
 
-   @IsOptional()
-   @Column()
-   jobInDay: [JobDay]
+  @IsOptional()
+  @Column()
+  jobInDay: [JobDay];
 
-   @OneToMany(type => Company, company => company.user)
-   companies: Company[];
+  @ManyToOne(() => Vacancy, (vacancy) => vacancy.jobApplicants)
+  jobVacancy: Vacancy;
+
+  @CreateDateColumn({ type: "timestamp" })
+  created_at: Date;
+
+  @UpdateDateColumn({ type: "timestamp" })
+  updated_at: Date;
 }
 
-export default User;

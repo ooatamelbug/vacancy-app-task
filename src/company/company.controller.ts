@@ -5,15 +5,8 @@ import { GetCompanyDTO, CreateCompanyDTO } from "./dto/company.dto";
 import { CompanyService } from "./company.service";
 import { Request, Response } from "express";
 import ErrorValidateCompanyDTO from "./company.validate";
-import { ObjectID } from "typeorm";
 
 export class CompanyController {
-  private companyService: CompanyService;
-
-  constructor() {
-    this.companyService = new CompanyService();
-  }
-
   async getCompanies(req: Request, res: Response) {
     let response: ResponseData;
     try {
@@ -28,8 +21,10 @@ export class CompanyController {
         res.status(404).json(response);
         return;
       }
+      const company = await new CompanyService().findAllCompany(req.body);
+      res.status(200).json({ data: company });
     } catch (error) {
-      response = { errors: [error.message] };
+      response = { success: false, errors: [error.message] };
       return res.status(500).json(response);
     }
   }
@@ -37,21 +32,20 @@ export class CompanyController {
   async createNewCompany(req: CustomRequest, res: Response) {
     let response: ResponseData;
     try {
-      const obj = new ObjectID(req.user);
-      const user = await new UserService().findUser({ id: obj });
-      
-      req.body.user = user;
+      const user = await new UserService().findUser({ email: req.user.email });
+      delete user.password;
+      req.body.userBy = user.id;
       const errors = await new ErrorValidateCompanyDTO().validateCreateCompany(
         req.body as CreateCompanyDTO
       );
       if (errors !== undefined) {
-        res.status(400).json({ errors });
+        res.status(400).json({ success: false, errors });
         return;
       }
-      const company = await this.companyService.createUser(
+      const company = await new CompanyService().createCompany(
         req.body as CreateCompanyDTO
       );
-      if (!user) {
+      if (!company) {
         response = {
           success: false,
           errors: ["cannot added this company"],
@@ -59,10 +53,11 @@ export class CompanyController {
         return res.status(404).json(response);
       }
       res.status(201).json({
-        data: user,
+        data: company,
       });
     } catch (error) {
-      response = { errors: [error.message] };
+      console.log(error);
+      response = { success: false, errors: [error.message] };
       return res.status(500).json(response);
     }
   }

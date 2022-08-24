@@ -4,9 +4,9 @@ import { Response, NextFunction } from "express";
 import JwtService from "../shared/service/jwt.service";
 
 const Auth = async (req: CustomRequest, res: Response, next: NextFunction) => {
+  let response: ResponseData;
   try {
-    let response: ResponseData;
-    const apiKey = req.headers["authorization"];
+    const apiKey = req.headers["authorization"].split(" ")[1];
     if (!apiKey) {
       response = {
         success: false,
@@ -15,8 +15,6 @@ const Auth = async (req: CustomRequest, res: Response, next: NextFunction) => {
       return res.status(401).json(response);
     } else {
       const isValideToken = await new JwtService().verifyToken(apiKey);
-      console.log(isValideToken);
-
       if (!isValideToken) {
         response = {
           success: false,
@@ -24,13 +22,13 @@ const Auth = async (req: CustomRequest, res: Response, next: NextFunction) => {
         };
         return res.status(401).json(response);
       }
-
-      const { sub } = isValideToken;
-      req.user = sub as string;
+      
+      req.user = isValideToken ;
       next();
     }
   } catch (error) {
-    throw error;
+    response = { errors: [error.message] };
+    return res.status(500).json(response);
   }
 };
 

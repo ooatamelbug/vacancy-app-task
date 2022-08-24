@@ -15,6 +15,7 @@ class ErrorValidateCompanyDTO {
     this.createCompanyDTO.email = createdata.email;
     this.createCompanyDTO.description = createdata.description;
     this.createCompanyDTO.name = createdata.name;
+    this.createCompanyDTO.userBy = createdata.userBy;
     const errors = await validate(this.createCompanyDTO);
     if (errors.length) {
       const error = errors.map((err) => {

@@ -15,9 +15,11 @@ class ConnectDB {
         username: "",
         password: "",
         database: "vacancy",
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
         synchronize: true,
         logging: true,
-        entities: ["src/*/entity/*{.js,.ts}"]
+        entities: ["src/*/entity/*{.js,.ts}"],
       });
 
       ConnectDB.connection

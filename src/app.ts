@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 import express, { Application } from "express";
 
 import connectDB from "./database/db.config";

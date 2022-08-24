@@ -1,13 +1,13 @@
 import * as jwt from "jsonwebtoken";
 
 class JwtService {
-  async getToken(email: string, userId: string): Promise<string> {
+  async getToken(email: string, userId: any): Promise<string> {
     const payload = {
       email,
       sub: userId,
     };
     const token = await jwt.sign(payload, process.env.JWT_SECRECT, {
-      expiresIn: `${process.env.JWT_EXPIRESIN}d`,
+      expiresIn: `${process.env.JWT_EXPIRESIN}h`,
     });
 
     return token;

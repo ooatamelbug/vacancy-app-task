@@ -1,5 +1,6 @@
 import { Request } from "express";
+import { ObjectID } from "typeorm";
 
 export interface CustomRequest extends Request {
-    user?: string;
+    user?: any | ObjectID;
 }

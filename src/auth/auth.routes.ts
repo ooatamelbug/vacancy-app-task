@@ -1,5 +1,5 @@
 import AuthController from "./auth.controller";
-import { Application, Router } from "express";
+import { Router } from "express";
 
 class CompanyRouter {
   public readonly userController: AuthController;
@@ -11,10 +11,10 @@ class CompanyRouter {
   }
 
   getRouter() {
-    this.router.post("/login", [], this.userController.login);
+    this.router.post("/signin", [], this.userController.signin);
 
-    this.router.post("/register", [], this.userController.register);
-    
+    this.router.post("/signup", [], this.userController.signup);
+
     return this.router;
   }
 }

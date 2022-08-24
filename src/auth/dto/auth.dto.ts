@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty, IsOptional } from "class-validator";
+import { ObjectID } from "typeorm";
 
 export class LoginUserDTO {
     @IsNotEmpty()
@@ -14,5 +15,5 @@ export class LoginresponseDTO {
     token: string;
 
     @IsNotEmpty()
-    userId: string;
+    userId: ObjectID;
 }

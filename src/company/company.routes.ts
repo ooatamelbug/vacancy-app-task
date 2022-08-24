@@ -2,7 +2,7 @@ import { CompanyController  } from "./company.controller";
 import { Application, Router } from "express";
 import Auth from "../middleware/auth";
 
-class AuthRouter {
+class CompanyRouter {
   public readonly userController: CompanyController;
   private router: Router;
 
@@ -12,7 +12,7 @@ class AuthRouter {
   }
 
   getRouter() {
-    this.router.post("/all", [Auth], this.userController.getCompanies);
+    this.router.get("/all", [Auth], this.userController.getCompanies);
 
     this.router.post("/create", [Auth], this.userController.createNewCompany);
     
@@ -20,4 +20,4 @@ class AuthRouter {
   }
 }
 
-export default AuthRouter;
+export default CompanyRouter;

@@ -1,4 +1,4 @@
-import {GetCompanyDTO, CreateCompanyDTO} from "./dto/company.dto";
+import { GetCompanyDTO, CreateCompanyDTO } from "./dto/company.dto";
 import { CompanyRepository } from "./company.repository";
 
 export class CompanyService {
@@ -8,13 +8,17 @@ export class CompanyService {
     this.companyRepository = new CompanyRepository();
   }
 
-  async findUser(findData: GetCompanyDTO) {
+  async findCompany(findData: GetCompanyDTO) {
     return await this.companyRepository.getOne(findData);
   }
 
-  async createUser(createdata: CreateCompanyDTO) {
+  async findAllCompany(findData: GetCompanyDTO) {
+    return await this.companyRepository.getAll(findData);
+  }
+
+  async createCompany(createdata: CreateCompanyDTO) {
     try {
-      const user = await this.findUser({ email: createdata.email });
+      const user = await this.findCompany({ email: createdata.email });
       if (user !== null) {
         throw new Error("this user is exist with this email");
       }

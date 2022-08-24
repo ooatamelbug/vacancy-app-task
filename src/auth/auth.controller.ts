@@ -1,42 +1,42 @@
+import { CustomRequest } from "./../shared/interface/request";
 import { LoginUserDTO } from "./dto/auth.dto";
 import { AuthService } from "./auth.service";
-import { Request, Response } from "express";
-import { Error } from "mongoose";
+import { Response } from "express";
 import { CreateUserDTO } from "./../users/dto/user.dto";
 import ErrorValidateUserDTO from "./auth.validate";
 import { ResponseData } from "./../shared/interface/response";
 
 class AuthController {
-  async login(req: Request, res: Response) {
+  async signin(req: CustomRequest, res: Response) {
     let response: ResponseData;
     try {
       const errors = await new ErrorValidateUserDTO().validateLoginUser(
         req.body as LoginUserDTO
       );
 
-      if (errors.length) {
+      if (errors !== undefined) {
         res.status(400).json({ errors });
         return;
       }
 
-      const authUser = await new AuthService().login(req.body as LoginUserDTO);
+      const authUser = await new AuthService().signin(req.body as LoginUserDTO);
 
       if (!authUser.token) {
         res.status(401).json({ errors: ["error in auth"] });
         return;
       }
 
-      req.headers.user = authUser.userId;
+      req.user = authUser.userId;
       res.status(200).json({
         "api-Key": authUser.token,
       });
     } catch (error) {
-      response = { errors: [error.message] };
+      response = { success: false, errors: [error.message] };
       return res.status(500).json(response);
     }
   }
 
-  async register(req: Request, res: Response) {
+  async signup(req: CustomRequest, res: Response) {
     let response: ResponseData;
     try {
       const errors = await new ErrorValidateUserDTO().validateCreateUser(
@@ -47,7 +47,7 @@ class AuthController {
         return;
       }
 
-      const authUser = await new AuthService().register(
+      const authUser = await new AuthService().signup(
         req.body as CreateUserDTO
       );
 
@@ -56,12 +56,12 @@ class AuthController {
         return;
       }
 
-      req.headers.user = authUser.userId;
+      req.user = authUser.userId;
       res.status(200).json({
         "api-Key": authUser.token,
       });
     } catch (error) {
-      response = { errors: [error.message] };
+      response = { success: false, errors: [error.message] };
       return res.status(500).json(response);
     }
   }

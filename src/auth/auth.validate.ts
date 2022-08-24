@@ -4,7 +4,7 @@ import { LoginUserDTO } from "./dto/auth.dto";
 
 class ErrorValidateUserDTO {
   public createUserDTO: CreateUserDTO;
-  public loginUserDTO: LoginUserDTO
+  public loginUserDTO: LoginUserDTO;
 
   constructor() {
     this.createUserDTO = new CreateUserDTO();
