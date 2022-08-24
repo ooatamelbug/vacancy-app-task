@@ -21,7 +21,6 @@ export class UserController {
   async createNewUser(req: Request, res: Response) {
     let response: ResponseData;
     try {
-
       const user = await this.userService.createUser(req.body as CreateUserDTO);
 
       if (!user) {

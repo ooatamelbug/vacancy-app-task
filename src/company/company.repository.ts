@@ -28,12 +28,9 @@ export class CompanyRepository {
     });
   }
 
-  async update(paramData, companyId): Promise<Company> {
-    const company = await this.connection
+  async update(paramData, email): Promise<Company> {
+    return await this.connection
       .getRepository(Company)
-      .findOneBy({ id: companyId });
-
-    this.connection.getRepository(Company).merge(company, paramData);
-    return await this.connection.getRepository(Company).save(company);
+      .update({ email }, { ...paramData });
   }
 }

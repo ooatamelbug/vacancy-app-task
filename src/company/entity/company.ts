@@ -8,7 +8,6 @@ import {
 } from "typeorm";
 import { ObjectID } from "mongodb";
 import { IsEmail, IsNotEmpty } from "class-validator";
-import {User} from "../../users/entity/user";
 import Vacancy from "../../vacancy/entity/vacancy";
 
 @Entity()

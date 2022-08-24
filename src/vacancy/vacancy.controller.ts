@@ -6,7 +6,6 @@ import { GetVacancyDTO, CreateVacancyDTO, ApplyDTO } from "./dto/vacancy.dto";
 import { VacancyService } from "./vacancy.service";
 import { Request, Response } from "express";
 import ErrorValidateVacancyDTO from "./vacancy.validation";
-import { ObjectID } from "typeorm";
 import Company from "company/entity/company";
 
 export class VacancyController {

@@ -19,7 +19,6 @@ export class UserRepository {
   }
 
   async update(paramData: UpdateUserDTO, email): Promise<User> {
-    console.log(paramData);
     return await this.connection
       .getRepository(User)
       .update({ email }, { ...paramData });

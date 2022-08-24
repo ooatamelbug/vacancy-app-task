@@ -1,5 +1,5 @@
-import { CompanyController  } from "./company.controller";
-import { Application, Router } from "express";
+import { CompanyController } from "./company.controller";
+import { Router } from "express";
 import Auth from "../middleware/auth";
 
 class CompanyRouter {
@@ -15,7 +15,7 @@ class CompanyRouter {
     this.router.get("/all", [Auth], this.userController.getCompanies);
 
     this.router.post("/create", [Auth], this.userController.createNewCompany);
-    
+
     return this.router;
   }
 }

@@ -56,7 +56,6 @@ export class CompanyController {
         data: company,
       });
     } catch (error) {
-      console.log(error);
       response = { success: false, errors: [error.message] };
       return res.status(500).json(response);
     }

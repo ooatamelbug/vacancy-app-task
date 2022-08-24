@@ -22,12 +22,12 @@ const Auth = async (req: CustomRequest, res: Response, next: NextFunction) => {
         };
         return res.status(401).json(response);
       }
-      
-      req.user = isValideToken ;
+
+      req.user = isValideToken;
       next();
     }
   } catch (error) {
-    response = { errors: [error.message] };
+    response = { success: false, errors: [error.message] };
     return res.status(500).json(response);
   }
 };

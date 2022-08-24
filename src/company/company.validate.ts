@@ -1,10 +1,9 @@
-import { CreateUserDTO } from "./../users/dto/user.dto";
 import { validate } from "class-validator";
 import { GetCompanyDTO, CreateCompanyDTO } from "./dto/company.dto";
 
 class ErrorValidateCompanyDTO {
   public createCompanyDTO: CreateCompanyDTO;
-  public getCompanyDTO: GetCompanyDTO
+  public getCompanyDTO: GetCompanyDTO;
 
   constructor() {
     this.createCompanyDTO = new CreateCompanyDTO();

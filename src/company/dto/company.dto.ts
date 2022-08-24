@@ -1,7 +1,5 @@
 import { IsEmail, IsNotEmpty, IsOptional } from "class-validator";
 import { ObjectID } from "typeorm";
-import {User} from "../../users/entity/user";
-// import User from "users/entity/user";
 
 export class CreateCompanyDTO {
     @IsNotEmpty()

@@ -3,12 +3,10 @@ import {
   Column,
   Entity,
   ManyToOne,
-  OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { IsEmail, IsNotEmpty, IsOptional } from "class-validator";
-import Company from "../../company/entity/company";
 import Vacancy from "../../vacancy/entity/vacancy";
 
 export class JobDay {
@@ -49,4 +47,3 @@ export class User extends ObjectIDExtende {
   @UpdateDateColumn({ type: "timestamp" })
   updated_at: Date;
 }
-
