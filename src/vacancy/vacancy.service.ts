@@ -1,8 +1,11 @@
+import { User } from "./../users/entity/user";
 import { UserService } from "./../users/user.service";
 import { GetVacancyDTO, CreateVacancyDTO, ApplyDTO } from "./dto/vacancy.dto";
 import { VacancyRepository } from "./vacancy.repository";
 import { v4 as uuidv4 } from "uuid";
 import { JobDay } from "users/entity/user";
+import { JobApplicants } from "./entity/vacancy";
+import { Console, timeStamp } from "console";
 
 export class VacancyService {
   private vacancyRepository: VacancyRepository;
@@ -41,58 +44,113 @@ export class VacancyService {
       }
 
       if (user.jobInDay !== undefined) {
-        let numberApplyJob = user.jobInDay.length;
-        let userTimesApplyJob: JobDay;
-        if (numberApplyJob > 0) {
-          userTimesApplyJob = user.jobInDay[numberApplyJob - 1];
-          if (
-            new Date(userTimesApplyJob.date).getDate() ===
-              new Date().getDate() &&
-            userTimesApplyJob.numb >= 3
-          ) {
-            throw new Error(
-              "you not allowed to apply this job you reach to max 3 number of apply this day"
-            );
-          }
-        }
+        await this.handleThreeMaxInDay(user.jobInDay);
       }
 
       if (vacancy.jobApplicants !== undefined) {
-        let usersIn = vacancy.jobApplicants.filter((applicant) => {
-          return String(applicant.id) === user.id.toString();
-        });
-        if (usersIn.length > 0) {
-          throw new Error("you not allowed to apply this job you apply before");
-        }
+        await this.handleApplyItBefore(vacancy.jobApplicants, user);
       }
 
       let day = new Date().getDate();
-      if (user.jobInDay !== undefined) {
-        const userDay = user.jobInDay.findIndex((dayIn) => {
-          return new Date(dayIn.date).getDate() === day;
-        });
-        let userCountJob = user.jobInDay[userDay];
-        if (userCountJob && userCountJob.numb < 3) {
-          user.jobInDay.splice(userDay, 1);
-          user.jobInDay.push({ ...userCountJob, numb: userCountJob.numb + 1 });
-        } else {
-          user.jobInDay.push({ date: new Date(), numb: 1 });
-        }
-      } else {
-        user.jobInDay = [{ date: new Date(), numb: 1 }];
-      }
+      const handleJobInDay = await this.handleCountingAllApplyForDay(
+        user.jobInDay,
+        day
+      );
 
-      if (vacancy.jobApplicants !== undefined) {
-        vacancy.jobApplicants.push({ id: user.id, timeApply: new Date() });
-      } else {
-        vacancy.jobApplicants = [{ id: user.id, timeApply: new Date() }];
-      }
+      user.jobInDay = handleJobInDay;
+
+      const vacancyJobApplicants = await this.handlJobApplicantsForRequest(
+        vacancy.jobApplicants,
+        user
+      );
+      vacancy.jobApplicants = vacancyJobApplicants;
+
 
       await this.vacancyRepository.update(vacancy, vacancy.uuid);
-
       await this.userService.updateUser(user, user.email);
 
       return { message: "OK" };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  private async handleThreeMaxInDay(userJobInDay: [JobDay]) {
+    try {
+      let numberApplyJob = userJobInDay.length;
+      let userTimesApplyJob: JobDay;
+      if (numberApplyJob > 0) {
+        userTimesApplyJob = userJobInDay[numberApplyJob - 1];
+        if (
+          new Date(userTimesApplyJob.date).getDate() === new Date().getDate() &&
+          userTimesApplyJob.numb >= 3
+        ) {
+          throw new Error(
+            "you not allowed to apply this job you reach to max 3 number of apply this day"
+          );
+        }
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  private async handleApplyItBefore(
+    jobApplicationsForVacancy: [JobApplicants],
+    user: User
+  ) {
+    try {
+      let usersIn = jobApplicationsForVacancy.filter((applicant) => {
+        return String(applicant.id) === user.id.toString();
+      });
+      if (usersIn.length > 0) {
+        throw new Error("you not allowed to apply this job you apply before");
+      }
+      return usersIn;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  private async handleCountingAllApplyForDay(
+    numberOfJobInUser: [JobDay],
+    numberDay: number
+  ): Promise<[JobDay]> {
+    try {
+      if (numberOfJobInUser !== undefined) {
+        const userDay = numberOfJobInUser.findIndex((dayIn) => {
+          return new Date(dayIn.date).getDate() === numberDay;
+        });
+        let userCountJob = numberOfJobInUser[userDay];
+        if (userCountJob && userCountJob.numb < 3) {
+          numberOfJobInUser.splice(userDay, 1);
+          numberOfJobInUser.push({
+            ...userCountJob,
+            numb: userCountJob.numb + 1,
+          });
+        } else {
+          numberOfJobInUser.push({ date: new Date(), numb: 1 });
+        }
+      } else {
+        numberOfJobInUser = [{ date: new Date(), numb: 1 }];
+      }
+      return numberOfJobInUser;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  private async handlJobApplicantsForRequest(
+    jobApplications: [JobApplicants],
+    user: User
+  ) {
+    try {
+      if (jobApplications !== undefined) {
+        jobApplications.push({ id: user.id, timeApply: new Date() });
+      } else {
+        jobApplications = [{ id: user.id, timeApply: new Date() }];
+      }
+      return jobApplications;
     } catch (error) {
       throw error;
     }
