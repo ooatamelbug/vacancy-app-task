@@ -13,6 +13,8 @@ class VacancyRouter {
 
   getRouter() {
     this.router.get("/search", [Auth], this.vacancyController.searchVacancies);
+    
+    this.router.get("/list", [Auth], this.vacancyController.listAllVacancy);
 
     this.router.post(
       "/create",

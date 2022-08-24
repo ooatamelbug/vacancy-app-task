@@ -1,5 +1,5 @@
 import ConnectDB from "../database/db.config";
-import { GetVacancyDTO, MergeCreateWithUuidDTO } from "./dto/vacancy.dto";
+import { GetVacancyDTO, MergeCreateWithUuidDTO, QueryDTO } from "./dto/vacancy.dto";
 import Vacancy from "./entity/vacancy";
 
 export class VacancyRepository {
@@ -16,9 +16,11 @@ export class VacancyRepository {
     return await this.connection.getRepository(Vacancy).save(vacancy);
   }
 
-  async getAll(paramData?: GetVacancyDTO): Promise<Vacancy> {
-    return await this.connection.getRepository(Vacancy).find(paramData, {
-      relations: ["created_by"],
+  async getAll(paramData?: GetVacancyDTO, queryData?: QueryDTO): Promise<Vacancy> {
+    return await this.connection.getRepository(Vacancy).find({
+      where: paramData,
+      skip: +queryData.skip,
+      take: +queryData.limit,
     });
   }
 

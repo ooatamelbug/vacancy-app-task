@@ -1,6 +1,11 @@
 import { User } from "./../users/entity/user";
 import { UserService } from "./../users/user.service";
-import { GetVacancyDTO, CreateVacancyDTO, ApplyDTO } from "./dto/vacancy.dto";
+import {
+  GetVacancyDTO,
+  CreateVacancyDTO,
+  ApplyDTO,
+  QueryDTO,
+} from "./dto/vacancy.dto";
 import { VacancyRepository } from "./vacancy.repository";
 import { v4 as uuidv4 } from "uuid";
 import { JobDay } from "users/entity/user";
@@ -18,7 +23,11 @@ export class VacancyService {
 
   async findVacancy(findData: GetVacancyDTO) {
     findData.status = "OPEN";
-    return await this.vacancyRepository.getAll(findData);
+    return await this.vacancyRepository.getAll(findData, {});
+  }
+
+  async findAllVacancy(filterData, queryData: QueryDTO) {
+    return await this.vacancyRepository.getAll({ status: "OPEN" }, queryData);
   }
 
   async createVacancy(createdata: CreateVacancyDTO) {
@@ -64,7 +73,6 @@ export class VacancyService {
         user
       );
       vacancy.jobApplicants = vacancyJobApplicants;
-
 
       await this.vacancyRepository.update(vacancy, vacancy.uuid);
       await this.userService.updateUser(user, user.email);

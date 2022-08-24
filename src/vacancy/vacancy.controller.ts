@@ -2,7 +2,12 @@ import { CompanyService } from "./../company/company.service";
 import { UserService } from "./../users/user.service";
 import { CustomRequest } from "./../shared/interface/request";
 import { ResponseData } from "./../shared/interface/response";
-import { GetVacancyDTO, CreateVacancyDTO, ApplyDTO } from "./dto/vacancy.dto";
+import {
+  GetVacancyDTO,
+  CreateVacancyDTO,
+  ApplyDTO,
+  QueryDTO,
+} from "./dto/vacancy.dto";
 import { VacancyService } from "./vacancy.service";
 import { Request, Response } from "express";
 import ErrorValidateVacancyDTO from "./vacancy.validation";
@@ -109,6 +114,21 @@ export class VacancyController {
         success: true,
         message: `successful apply (^_^) ${apply.message}`,
       });
+    } catch (error) {
+      response = { success: false, errors: [error.message] };
+      return res.status(500).json(response);
+    }
+  }
+
+  async listAllVacancy(req: CustomRequest, res: Response) {
+    let response: ResponseData;
+    try {
+      let queryData = <QueryDTO>req.query;
+      const vacancy = await new VacancyService().findAllVacancy(
+        {},
+        queryData
+      );
+      res.status(200).json({ data: vacancy });
     } catch (error) {
       response = { success: false, errors: [error.message] };
       return res.status(500).json(response);

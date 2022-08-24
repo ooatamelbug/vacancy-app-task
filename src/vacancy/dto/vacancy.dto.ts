@@ -47,3 +47,11 @@ export class ApplyDTO {
   @IsNotEmpty()
   vacancyId: string;
 }
+
+export class QueryDTO {
+  @IsOptional()
+  skip?: number;
+  
+  @IsOptional()
+  limit?: number;
+}
